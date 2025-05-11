@@ -29,21 +29,21 @@ jobs:
             ${{ runner.os }}-buildx-
 
       - name: Build Docker Compose services
-        run: docker-compose -f deploy/local/docker-compose.yml build
+        run: docker compose -f deploy/local/docker-compose.yml build
 
       - name: Start Docker Compose services
-        run: docker-compose -f deploy/local/docker-compose.yml up -d
+        run: docker compose -f deploy/local/docker-compose.yml up -d
 
       # - name: Run database migrations (optional)
-      #   run: docker-compose -f deploy/local/docker-compose.yml exec -T api npm run migration:run # Если используешь миграции
+      #   run: docker compose -f deploy/local/docker-compose.yml exec -T api npm run migration:run # Если используешь миграции
       #   continue-on-error: true # Пропускаем, если миграции не нужны
 
       - name: Run tests
-        run: docker-compose -f deploy/local/docker-compose.yml exec -T api npm run test
+        run: docker compose -f deploy/local/docker-compose.yml exec -T api npm run test
         continue-on-error: true # Пропускаем, если тестов пока нет
 
       - name: Stop Docker Compose services
-        run: docker-compose -f deploy/local/docker-compose.yml down
+        run: docker compose -f deploy/local/docker-compose.yml down
 
   # deploy:
   #   needs: build-and-test
