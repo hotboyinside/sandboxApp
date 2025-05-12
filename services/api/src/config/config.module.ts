@@ -4,13 +4,13 @@ import { appConfig } from './app.config';
 import { databaseConfig } from './database.config';
 
 @Module({
-  imports: [
-    ConfigModule.forRoot({
-      load: [appConfig, databaseConfig],
-      isGlobal: true,
-    }),
-  ],
-  providers: [ConfigService],
-  exports: [ConfigService],
+	imports: [
+		ConfigModule.forRoot({
+			load: [appConfig, databaseConfig],
+			isGlobal: true,
+		}),
+	],
+	providers: [ConfigService],
+	exports: [ConfigService],
 })
 export class AppConfigModule {}
