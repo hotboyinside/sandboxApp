@@ -1,4 +1,4 @@
-import { ValidationPipe } from '@nestjs/common';
+import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import * as cookieParser from 'cookie-parser';
@@ -22,6 +22,10 @@ async function bootstrap() {
 
 	app.use(cookieParser(cookieSecret));
 	app.setGlobalPrefix('api');
+	app.enableVersioning({
+		type: VersioningType.URI,
+		defaultVersion: '1',
+	});
 
 	await app.listen(port);
 }

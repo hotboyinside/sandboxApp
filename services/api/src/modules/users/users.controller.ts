@@ -16,11 +16,6 @@ import { UserService } from './users.service';
 export class UserController {
 	constructor(private readonly usersService: UserService) {}
 
-	@Post()
-	async createUser(@Body() createUserDto: CreateUserDto) {
-		return this.usersService.createUser(createUserDto);
-	}
-
 	@Get()
 	async findAllUsers() {
 		return this.usersService.findAllUser();
@@ -29,6 +24,11 @@ export class UserController {
 	@Get(':id')
 	async findOneUser(@Param('id', ParseIntPipe) id: number) {
 		return this.usersService.viewUser(id);
+	}
+
+	@Post()
+	async createUser(@Body() createUserDto: CreateUserDto) {
+		return this.usersService.createUser(createUserDto);
 	}
 
 	@Put(':id')
