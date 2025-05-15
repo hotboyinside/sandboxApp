@@ -6,12 +6,15 @@ export const ERROR_USERNAME_TOO_SHORT =
 export const ERROR_USERNAME_NOT_ALPHANUMERIC =
 	'Username does not allow other than alpha numeric chars.';
 export const ERROR_EMAIL_INVALID = 'Please provide valid Email.';
-export const ERROR_PASSWORD_INVALID = `Password must contain:
-- Minimum 8 and maximum 20 characters,
-- At least one uppercase letter,
-- One lowercase letter,
-- One number,
-- One special character.`;
+export const ERROR_PASSWORD_INVALID =
+	'Password must contain: - Minimum 8 and maximum 20 characters, - At least one uppercase letter, - One lowercase letter - One number, - One special character.';
 
 // user CRUD errors
-export const ERROR_USER_WITH_ID_NOT_FOUND = `User with id not found`;
+export const ERROR_USER_WITH_ID_NOT_FOUND = 'User with this id not found';
+export const ERROR_USER_WITH_USERNAME_NOT_FOUND =
+	'User with this username not found';
+
+// auth CRUD errors
+export const ERROR_USER_NOT_FOUND = 'User not found';
+export const ERROR_INVALID_PASSWORD = 'Invalid password';
+export const ERROR_USER_IS_BANNED = 'User is banned';
