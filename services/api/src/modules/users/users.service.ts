@@ -39,7 +39,7 @@ export class UserService {
 	 * @param id is type of number, which represent the id of user.
 	 * @returns promise of user
 	 */
-	async viewUser(id: number): Promise<User> {
+	async findUserById(id: number): Promise<User> {
 		const user = await this.userRepository.findOneBy({ id });
 		if (!user) {
 			throw new NotFoundException(ERROR_USER_WITH_ID_NOT_FOUND);
@@ -52,7 +52,7 @@ export class UserService {
 	 * @param username is type of string, which represent the id of user.
 	 * @returns promise of user
 	 */
-	async viewUserByUsername(username: string): Promise<User> {
+	async findUserByUsername(username: string): Promise<User> {
 		const user = await this.userRepository.findOneBy({ username });
 		if (!user) {
 			throw new NotFoundException(ERROR_USER_WITH_USERNAME_NOT_FOUND);

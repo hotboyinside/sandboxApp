@@ -1,5 +1,4 @@
 // create user validations errors
-
 export const ERROR_NAME_TOO_SHORT = 'Name must have at least 2 characters.';
 export const ERROR_USERNAME_TOO_SHORT =
 	'Username must have at least 3 characters.';
@@ -18,3 +17,8 @@ export const ERROR_USER_WITH_USERNAME_NOT_FOUND =
 export const ERROR_USER_NOT_FOUND = 'User not found';
 export const ERROR_INVALID_PASSWORD = 'Invalid password';
 export const ERROR_USER_IS_BANNED = 'User is banned';
+export const ERROR_TOKENS_NOT_FOUND = 'Tokens not found';
+export const ERROR_INVALID_TOKEN = 'Invalid tokens';
+
+// roles guard errors
+export const ERROR_USER_IS_NOT_LOG_IN = 'You need to be logged in';

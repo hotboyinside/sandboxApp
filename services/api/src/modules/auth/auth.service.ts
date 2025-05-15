@@ -54,7 +54,7 @@ export class AuthService {
 	 * @returns Promise containing tokens and userData
 	 */
 	async login({ username, password, rememberMe }: LoginDto) {
-		const user = await this.userService.viewUserByUsername(username);
+		const user = await this.userService.findUserByUsername(username);
 		if (!user) throw new UnauthorizedException(ERROR_USER_NOT_FOUND);
 
 		if (user?.isBanned) {

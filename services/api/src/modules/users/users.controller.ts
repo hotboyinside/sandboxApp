@@ -23,7 +23,7 @@ export class UserController {
 
 	@Get(':id')
 	async findOneUser(@Param('id', ParseIntPipe) id: number) {
-		return this.usersService.viewUser(id);
+		return this.usersService.findUserById(id);
 	}
 
 	@Post()
