@@ -7,20 +7,20 @@ export class User {
 	id: number;
 
 	@Column({ type: 'varchar', length: 30 })
-	name: string;
+	realName: string;
 
 	@Column({ type: 'varchar', length: 15 })
 	username: string;
 
-	@Column({ type: 'varchar', length: 40 })
-	email: string;
+	@Column({ type: 'varchar', length: 17 })
+	steamId: string;
 
-	@Column({ type: 'varchar' })
+	@Column({ type: 'varchar', nullable: true })
 	password: string;
 
 	@Column({ type: 'varchar' })
-	isBanned: boolean;
-
-	@Column({ type: 'varchar' })
 	role: Role;
+
+	@Column({ type: 'varchar', default: false })
+	isBanned: boolean;
 }

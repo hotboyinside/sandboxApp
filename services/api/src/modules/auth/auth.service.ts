@@ -1,4 +1,5 @@
 import {
+	BadRequestException,
 	ForbiddenException,
 	Injectable,
 	UnauthorizedException,
@@ -12,8 +13,10 @@ import {
 	ERROR_USER_NOT_FOUND,
 } from 'src/common/constants/errors.const';
 import { ICurrentUser } from 'src/common/interfaces/user.interface';
+import { SteamService } from '../steam/steam.service';
 import { UserService } from '../users/users.service';
 import { LoginDto } from './dto/login-auth.dto';
+import { LoginSteamDto } from './dto/login-steam-auth.dto';
 import { IJwtPayload } from './interfaces/jwt-payload.interface';
 
 @Injectable()
@@ -22,12 +25,14 @@ export class AuthService {
 	readonly jwtExpiresIn: string;
 	readonly jwtRefreshSecret: string;
 	readonly jwtRefreshExpiresIn: string;
+	readonly steamIdMaxLength: string;
 	readonly cookieOptions: object;
 
 	constructor(
 		private jwtService: JwtService,
 		private userService: UserService,
 		private configService: ConfigService,
+		private steamService: SteamService,
 	) {
 		this.jwtSecret = this.configService.get('jwt.secret') as string;
 		this.jwtExpiresIn = this.configService.get('jwt.expiresIn') as string;
@@ -36,6 +41,9 @@ export class AuthService {
 		) as string;
 		this.jwtRefreshExpiresIn = this.configService.get(
 			'jwt.refreshExpiresIn',
+		) as string;
+		this.steamIdMaxLength = this.configService.get(
+			'steam.steamIdMaxLength',
 		) as string;
 
 		this.cookieOptions = {
@@ -68,6 +76,22 @@ export class AuthService {
 
 		const tokens = await this.generateTokens(user, rememberMe);
 		return { ...tokens, userData: user };
+	}
+
+	async loginWithSteam({ steamId }: LoginSteamDto) {
+		await this.steamService.getDotaMatchHistory();
+		const user = await this.userService.findUserBySteamId(steamId);
+
+		if (!user) {
+			throw new BadRequestException('Bad Request');
+			// const userDataFromSteam =
+			// 	await this.steamService.getSteamUserInfo(steamId);
+			// user = await this.userService.createUser({
+			// 	...userDataFromSteam,
+			// 	role: Role.CLIENT,
+			// } as CreateUserDto);
+		}
+		return user;
 	}
 
 	/**

@@ -1,15 +1,15 @@
 import { forwardRef, Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { APP_GUARD } from '@nestjs/core';
 import { JwtModule } from '@nestjs/jwt';
-import { AppService } from 'src/app.service';
-import { AuthGuard } from 'src/common/guards/auth.guard';
+import { SteamModule } from '../steam/steam.module';
 import { UserModule } from '../users/users.module';
 import { AuthController } from './auth.controller';
-import { RolesGuard } from 'src/common/guards/roles.guard';
+import { AuthService } from './auth.service';
+import { AuthGuard } from './guards/auth.guard';
 
 @Module({
 	imports: [
+		SteamModule,
 		forwardRef(() => UserModule),
 		JwtModule.registerAsync({
 			inject: [ConfigService],
@@ -22,16 +22,7 @@ import { RolesGuard } from 'src/common/guards/roles.guard';
 		}),
 	],
 	controllers: [AuthController],
-	providers: [
-		AppService,
-		{
-			provide: APP_GUARD,
-			useClass: AuthGuard,
-		},
-		{
-			provide: APP_GUARD,
-			useClass: RolesGuard,
-		},
-	],
+	providers: [AuthService, AuthGuard],
+	exports: [AuthService],
 })
 export class AuthModule {}

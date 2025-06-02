@@ -6,16 +6,16 @@ import {
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { Request, Response } from 'express';
-import { AuthService } from 'src/modules/auth/auth.service';
-import { PUBLIC_KEY } from 'src/modules/auth/decorators/public.decorator';
-import { UserService } from 'src/modules/users/users.service';
 import {
 	ERROR_INVALID_TOKEN,
 	ERROR_TOKENS_NOT_FOUND,
 	ERROR_USER_IS_BANNED,
 	ERROR_USER_NOT_FOUND,
-} from '../constants/errors.const';
-import { ms } from '../utils/units/ms';
+} from 'src/common/constants/errors.const';
+import { ms } from 'src/common/utils/units/ms';
+import { AuthService } from 'src/modules/auth/auth.service';
+import { PUBLIC_KEY } from 'src/modules/auth/decorators/public.decorator';
+import { UserService } from 'src/modules/users/users.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate {

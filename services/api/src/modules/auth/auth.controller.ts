@@ -5,6 +5,7 @@ import { ms } from 'src/common/utils/units/ms';
 import { AuthService } from './auth.service';
 import { Public } from './decorators/public.decorator';
 import { LoginDto } from './dto/login-auth.dto';
+import { LoginSteamDto } from './dto/login-steam-auth.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -25,6 +26,16 @@ export class AuthController {
 		});
 
 		return res.json({ message: 'Login successful', userData });
+	}
+
+	@Public()
+	@Post('login-steam')
+	async loginWithSteam(
+		@Body() loginSteamDto: LoginSteamDto,
+		@Res() res: Response,
+	) {
+		const user = await this.authService.loginWithSteam(loginSteamDto);
+		return res.json({ message: 'Login successful', userData: user });
 	}
 
 	@Post('logout')

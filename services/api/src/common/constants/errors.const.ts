@@ -10,6 +10,8 @@ export const ERROR_PASSWORD_INVALID =
 
 // user CRUD errors
 export const ERROR_USER_WITH_ID_NOT_FOUND = 'User with this id not found';
+export const ERROR_USER_WITH_STEAM_ID_NOT_FOUND =
+	'User with this steam id not found';
 export const ERROR_USER_WITH_USERNAME_NOT_FOUND =
 	'User with this username not found';
 
@@ -19,6 +21,9 @@ export const ERROR_INVALID_PASSWORD = 'Invalid password';
 export const ERROR_USER_IS_BANNED = 'User is banned';
 export const ERROR_TOKENS_NOT_FOUND = 'Tokens not found';
 export const ERROR_INVALID_TOKEN = 'Invalid tokens';
+export const ERROR_STEAM_ID_IS_REQUIRED = 'Steam ID is required';
+export const ERROR_STEAM_ID_INVALID_LENGTH = 'Steam ID must be exactly 17';
+export const ERROR_STEAM_ID_INVALID_FORMAT = 'Invalid Steam ID format';
 
 // roles guard errors
 export const ERROR_USER_IS_NOT_LOG_IN = 'You need to be logged in';

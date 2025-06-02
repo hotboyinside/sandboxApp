@@ -1,27 +1,26 @@
 import {
 	IsAlphanumeric,
-	IsEmail,
+	IsEnum,
 	IsNotEmpty,
 	IsString,
+	Length,
 	Matches,
 	MinLength,
 } from 'class-validator';
 import {
-	ERROR_EMAIL_INVALID,
 	ERROR_NAME_TOO_SHORT,
-	ERROR_PASSWORD_INVALID,
+	ERROR_STEAM_ID_INVALID_FORMAT,
+	ERROR_STEAM_ID_INVALID_LENGTH,
 	ERROR_USERNAME_NOT_ALPHANUMERIC,
 	ERROR_USERNAME_TOO_SHORT,
 } from 'src/common/constants/errors.const';
-
-const passwordRegEx =
-	/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$/;
+import { Role } from 'src/common/enums/roles.enum';
 
 export class CreateUserDto {
 	@IsString()
 	@MinLength(2, { message: ERROR_NAME_TOO_SHORT })
 	@IsNotEmpty()
-	name: string;
+	realName: string;
 
 	@IsNotEmpty()
 	@MinLength(3, { message: ERROR_USERNAME_TOO_SHORT })
@@ -30,13 +29,12 @@ export class CreateUserDto {
 	})
 	username: string;
 
+	@IsString()
 	@IsNotEmpty()
-	@IsEmail({}, { message: ERROR_EMAIL_INVALID })
-	email: string;
+	@Length(17, 17, { message: ERROR_STEAM_ID_INVALID_LENGTH })
+	@Matches(/^7656119\d{10}$/, { message: ERROR_STEAM_ID_INVALID_FORMAT })
+	steamId: string;
 
-	@IsNotEmpty()
-	@Matches(passwordRegEx, {
-		message: ERROR_PASSWORD_INVALID,
-	})
-	password: string;
+	@IsEnum(Role)
+	role: Role;
 }

@@ -5,5 +5,5 @@ export class UpdateUserDto {
 	@IsString()
 	@MinLength(2, { message: ERROR_NAME_TOO_SHORT })
 	@IsNotEmpty()
-	name: string;
+	realName: string;
 }

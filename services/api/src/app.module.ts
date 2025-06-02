@@ -5,6 +5,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AppConfigModule } from './config/config.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { SteamModule } from './modules/steam/steam.module';
 import { UserModule } from './modules/users/users.module';
 
 @Module({
@@ -26,8 +27,19 @@ import { UserModule } from './modules/users/users.module';
 		}),
 		UserModule,
 		AuthModule,
+		SteamModule,
 	],
 	controllers: [AppController],
-	providers: [AppService],
+	providers: [
+		AppService,
+		// {
+		// 	provide: APP_GUARD,
+		// 	useClass: AuthGuard,
+		// },
+		// {
+		// 	provide: APP_GUARD,
+		// 	useClass: RolesGuard,
+		// },
+	],
 })
 export class AppModule {}

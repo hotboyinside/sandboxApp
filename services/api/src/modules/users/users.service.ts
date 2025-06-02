@@ -48,6 +48,16 @@ export class UserService {
 	}
 
 	/**
+	 * this function used to get data of use whose id is passed in parameter
+	 * @param id is type of number, which represent the id of user.
+	 * @returns promise of user
+	 */
+	async findUserBySteamId(steamId: string): Promise<User | null> {
+		const user = await this.userRepository.findOneBy({ steamId });
+		return user;
+	}
+
+	/**
 	 * this function used to get data of use whose username is passed in parameter
 	 * @param username is type of string, which represent the id of user.
 	 * @returns promise of user
