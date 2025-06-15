@@ -1,0 +1,166 @@
+@use 'sass:meta';
+@use 'sass:list';
+@use 'sass:math';
+@use 'sass:map';
+@use './variables/breakpoints' as *;
+@use './variables/typography' as *;
+@use './variables/colors' as *;
+
+@mixin font($font_name, $file_name, $weight, $style) {
+	@font-face {
+		font-family: $font_name;
+		font-display: swap;
+		src: url('/fonts/#{file_name}.ttf') format('ttf'),
+			url('/fonts/#{$file_name}.woff') format('woff'),
+			url('/fonts/#{$file_name}.woff2') format('woff2');
+		font-weight: #{$weight};
+		font-style: #{$style};
+	}
+}
+
+@mixin breakpoint($point) {
+	@if $point == sm {
+		@media screen and (max-width: $breakpoint_sm) {
+			@content;
+		}
+	} @else if $point == md {
+		@media screen and (max-width: $breakpoint_md) {
+			@content;
+		}
+	} @else if $point == lg {
+		@media screen and (max-width: $breakpoint_lg) {
+			@content;
+		}
+	} @else if $point == xl {
+		@media screen and (max-width: $breakpoint_xl) {
+			@content;
+		}
+	}
+}
+
+@mixin truncate($lines: 1) {
+	display: -webkit-box;
+	-webkit-line-clamp: $lines;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	word-break: break-word;
+}
+
+@mixin scrollbar() {
+	&::-webkit-scrollbar {
+		width: 1rem;
+		height: $gray-200;
+	}
+	&::-webkit-scrollbar-thumb {
+		width: 0.5rem;
+		background-color: $gray-200;
+		border-radius: 0.5rem;
+		background-clip: padding-box;
+		border: 0.25rem solid transparent;
+	}
+	&::-webkit-scrollbar-track {
+		background: transparent;
+	}
+}
+
+$rem-baseline: 16px !default;
+$rem-fallback: false !default;
+$rem-px-only: false !default;
+
+@function rem-separator($list, $separator: false) {
+	@if $separator == 'comma' or $separator == 'space' {
+		@return list.append($list, null, $separator);
+	}
+
+	@if meta.function-exists('list.separator') {
+		@return list.separator($list);
+	}
+
+	$test-list: ();
+	@each $item in $list {
+		$test-list: list.append($test-list, $item, space);
+	}
+
+	@return if($test-list == $list, space, comma);
+}
+
+@mixin rem-baseline($zoom: 100%) {
+	font-size: math.div($zoom, 16px) * $rem-baseline;
+}
+
+@function rem-convert($to, $values...) {
+	$result: ();
+	$separator: rem-separator($values);
+
+	@each $value in $values {
+		@if meta.type-of($value) ==
+			'number' and
+			math.unit($value) ==
+			'rem' and
+			$to ==
+			'px'
+		{
+			$result: list.append(
+				$result,
+				math.div($value, 1rem) * $rem-baseline,
+				$separator
+			);
+		} @else if
+			meta.type-of($value) ==
+			'number' and
+			math.unit($value) ==
+			'px' and
+			$to ==
+			'rem'
+		{
+			$result: list.append(
+				$result,
+				math.div($value, $rem-baseline) * 1rem,
+				$separator
+			);
+		} @else if meta.type-of($value) == 'list' {
+			$value-separator: rem-separator($value);
+			$value: rem-convert($to, $value...);
+			$value: rem-separator($value, $value-separator);
+			$result: list.append($result, $value, $separator);
+		} @else {
+			$result: list.append($result, $value, $separator);
+		}
+	}
+
+	@return if(list.length($result) == 1, list.nth($result, 1), $result);
+}
+
+@function rem($values...) {
+	@if $rem-px-only {
+		@return rem-convert(px, $values...);
+	} @else {
+		@return rem-convert(rem, $values...);
+	}
+}
+
+@mixin rem($properties, $values...) {
+	@if meta.type-of($properties) == 'map' {
+		@each $property in map.keys($properties) {
+			@include rem($property, map.get($properties, $property));
+		}
+	} @else {
+		@each $property in $properties {
+			@if $rem-fallback or $rem-px-only {
+				#{$property}: rem-convert(px, $values...);
+			}
+			@if not $rem-px-only {
+				#{$property}: rem-convert(rem, $values...);
+			}
+		}
+	}
+}
+
+@mixin text($size: 'text-md', $color: $gray-900, $font-weight: 500) {
+	font-size: map.get($font-sizes, $size);
+	line-height: map.get($line-heights, $size);
+	letter-spacing: map.get($letter-spacings, $size);
+	color: $color;
+	font-weight: $font-weight;
+}

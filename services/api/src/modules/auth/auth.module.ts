@@ -1,6 +1,7 @@
 import { forwardRef, Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
+import { MatchesModule } from '../matches/matches.module';
 import { SteamModule } from '../steam/steam.module';
 import { UserModule } from '../users/users.module';
 import { AuthController } from './auth.controller';
@@ -9,7 +10,6 @@ import { AuthGuard } from './guards/auth.guard';
 
 @Module({
 	imports: [
-		SteamModule,
 		forwardRef(() => UserModule),
 		JwtModule.registerAsync({
 			inject: [ConfigService],
@@ -20,7 +20,10 @@ import { AuthGuard } from './guards/auth.guard';
 				},
 			}),
 		}),
+		SteamModule,
+		MatchesModule,
 	],
+
 	controllers: [AuthController],
 	providers: [AuthService, AuthGuard],
 	exports: [AuthService],

@@ -1,0 +1,70 @@
+$white: #FFFFFF;
+$black: #000000;
+
+$gray-25: #FDFDFD;
+$gray-50: #FAFAFA;
+$gray-100: #F5F5F5;
+$gray-200: #E9EAEB;
+$gray-300: #D5D7DA;
+$gray-400: #A4A7AE;
+$gray-500: #717680;
+$gray-600: #535862;
+$gray-700: #414651;
+$gray-800: #252B37;
+$gray-900: #101828;
+$gray-950: #0A0D12;
+
+$brand-25: #F5FAFF;
+$brand-50: #EFF8FF;
+$brand-100: #D1E9FF;
+$brand-200: #B2DDFF;
+$brand-300: #84CAFF;
+$brand-400: #53B1FD;
+$brand-500: #2E90FA;
+$brand-600: #1570EF;
+$brand-700: #175CD3;
+$brand-800: #1849A9;
+$brand-900: #194185;
+$brand-950: #112A56;
+
+$error-25: #FFFBFA;
+$error-50: #FEF3F2;
+$error-100: #FEE4E2;
+$error-200: #FECDCA;
+$error-300: #FDA29B;
+$error-400: #F97066;
+$error-500: #F04438;
+$error-600: #D92D20;
+$error-700: #B42318;
+$error-800: #912018;
+$error-900: #7A271A;
+$error-950: #55160C;
+
+$warning-25: #FFFCF5;
+$warning-50: #FFFAEB;
+$warning-100: #FEF0C7;
+$warning-200: #FEDF89;
+$warning-300: #FEC84B;
+$warning-400: #FDB022;
+$warning-500: #F79009;
+$warning-600: #DC6803;
+$warning-700: #B54708;
+$warning-800: #93370D;
+$warning-900: #7A2E0E;
+$warning-950: #4E1D09;
+
+$success-25: #F6FEF9;
+$success-50: #ECFDF3;
+$success-100: #D1FADF;
+$success-200: #A6F4C5;
+$success-300: #6CE9A6;
+$success-400: #32D583;
+$success-500: #12B76A;
+$success-600: #039855;
+$success-700: #027A48;
+$success-800: #05603A;
+$success-900: #054F31;
+$success-950: #053321;
+
+$gradient-primary: linear-gradient(45deg, $brand-600, $brand-400);
+$gradient-secondary: linear-gradient(-65deg, $brand-100, $brand-25, $brand-100);

@@ -1,0 +1,6 @@
+@use './mixins' as *;
+
+@include font('Inter', 'Inter/Inter-Regular', '400', normal);
+@include font('Inter', 'Inter/Inter-Medium', '500', normal);
+@include font('Inter', 'Inter/Inter-SemiBold', '600', normal);
+@include font('Inter', 'Inter/Inter-Bold', '700', normal);

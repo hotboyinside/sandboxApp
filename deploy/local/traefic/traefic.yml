@@ -1,0 +1,19 @@
+log:
+  level: INFO
+
+api:
+  dashboard: true
+  insecure: true
+
+providers:
+  docker:
+    network: traefik
+    exposedByDefault: false
+
+entryPoints:
+  http:
+    address: :80
+  https:
+    address: :443
+
+accessLog: {}

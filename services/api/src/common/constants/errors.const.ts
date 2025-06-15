@@ -24,6 +24,11 @@ export const ERROR_INVALID_TOKEN = 'Invalid tokens';
 export const ERROR_STEAM_ID_IS_REQUIRED = 'Steam ID is required';
 export const ERROR_STEAM_ID_INVALID_LENGTH = 'Steam ID must be exactly 17';
 export const ERROR_STEAM_ID_INVALID_FORMAT = 'Invalid Steam ID format';
+export const ERROR_USER_WITH_STEAM_ID_ALREADY_EXIST =
+	'User with this steam id already existed';
+
+// stratZ API errors
+export const ERROR_REQUEST_USER_NOT_FOUND = 'User not found';
 
 // roles guard errors
 export const ERROR_USER_IS_NOT_LOG_IN = 'You need to be logged in';

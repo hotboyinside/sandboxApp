@@ -1,0 +1,31 @@
+@use './mixins' as *;
+
+body {
+	position: relative;
+	width: 100%;
+	height: max-content;
+	overflow-x: hidden;
+	line-height: 1;
+	&.lock {
+		overflow: hidden;
+		@include breakpoint(md) {
+			width: 100vw;
+		}
+	}
+}
+
+#root {
+	width: 100%;
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+}
+
+main {
+	flex: 1 1 auto;
+}
+
+.container {
+	width: 100%;
+	padding: 0 30px;
+}

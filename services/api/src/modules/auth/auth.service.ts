@@ -1,5 +1,5 @@
 import {
-	BadRequestException,
+	ConflictException,
 	ForbiddenException,
 	Injectable,
 	UnauthorizedException,
@@ -11,12 +11,17 @@ import {
 	ERROR_INVALID_PASSWORD,
 	ERROR_USER_IS_BANNED,
 	ERROR_USER_NOT_FOUND,
+	ERROR_USER_WITH_STEAM_ID_ALREADY_EXIST,
+	ERROR_USER_WITH_STEAM_ID_NOT_FOUND,
 } from 'src/common/constants/errors.const';
+import { Role } from 'src/common/enums/roles.enum';
 import { ICurrentUser } from 'src/common/interfaces/user.interface';
+import { MatchesService } from '../matches/matches.service';
 import { SteamService } from '../steam/steam.service';
 import { UserService } from '../users/users.service';
 import { LoginDto } from './dto/login-auth.dto';
 import { LoginSteamDto } from './dto/login-steam-auth.dto';
+import { RegisterDto } from './dto/register-auth.dto';
 import { IJwtPayload } from './interfaces/jwt-payload.interface';
 
 @Injectable()
@@ -33,6 +38,7 @@ export class AuthService {
 		private userService: UserService,
 		private configService: ConfigService,
 		private steamService: SteamService,
+		private matchesService: MatchesService,
 	) {
 		this.jwtSecret = this.configService.get('jwt.secret') as string;
 		this.jwtExpiresIn = this.configService.get('jwt.expiresIn') as string;
@@ -52,6 +58,35 @@ export class AuthService {
 			signed: true,
 			secure: true,
 		};
+	}
+
+	async registerWithSteam({ steamId }: RegisterDto) {
+		const existedUser = await this.userService.findUserBySteamId(steamId);
+
+		if (existedUser)
+			throw new ConflictException(ERROR_USER_WITH_STEAM_ID_ALREADY_EXIST);
+
+		const userData = await this.steamService.getSteamUserInfo(steamId);
+		const steamAccountData = userData.steamAccount;
+		const lastDotaMatches = userData.matches;
+
+		console.log('steamAccountData', steamAccountData);
+		console.log('lastDotaMatches', lastDotaMatches);
+		// console.log('lastDotaMatches', lastDotaMatches?.players)
+
+		const newUser = await this.userService.createUser({
+			avatar: steamAccountData.avatar,
+			name: steamAccountData.name,
+			seasonRank: steamAccountData.seasonRank,
+			steamId: steamId,
+			role: Role.CLIENT,
+		});
+
+		for (const match of lastDotaMatches) {
+			await this.matchesService.createMatchWithPlayers(match);
+		}
+
+		return newUser;
 	}
 
 	/**
@@ -79,19 +114,17 @@ export class AuthService {
 	}
 
 	async loginWithSteam({ steamId }: LoginSteamDto) {
-		await this.steamService.getDotaMatchHistory();
 		const user = await this.userService.findUserBySteamId(steamId);
 
-		if (!user) {
-			throw new BadRequestException('Bad Request');
-			// const userDataFromSteam =
-			// 	await this.steamService.getSteamUserInfo(steamId);
-			// user = await this.userService.createUser({
-			// 	...userDataFromSteam,
-			// 	role: Role.CLIENT,
-			// } as CreateUserDto);
+		if (!user)
+			throw new UnauthorizedException(ERROR_USER_WITH_STEAM_ID_NOT_FOUND);
+
+		if (user?.isBanned) {
+			throw new ForbiddenException(ERROR_USER_IS_BANNED);
 		}
-		return user;
+
+		const tokens = await this.generateTokens(user);
+		return { ...tokens, userData: user };
 	}
 
 	/**
