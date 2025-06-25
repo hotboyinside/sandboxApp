@@ -1,4 +1,4 @@
-import { LocaleText } from '@/components/appProvider/localizationContext/types/localization.types';
+import { LocaleText } from '@/components/AppProvider/localizationContext/types/localization.types';
 
 export const ruLocaleText: LocaleText = {
 	dialog: {
